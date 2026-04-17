@@ -1,6 +1,23 @@
+"use client";
+import { useState } from "react";
+
 export default function Hero() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("sending");
+    const fd = new FormData(e.currentTarget);
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(fd)),
+    });
+    setStatus(res.ok ? "sent" : "error");
+  }
   return (
     <main>
+      {/* ── Problem ── */}
       <section id="problem">
         <div className="container">
           <div className="section-top fade">
@@ -12,10 +29,9 @@ export default function Hero() {
               </h2>
             </div>
             <p className="section-copy">
-              The deck positions WATTONWAY around three connected
-              inefficiencies: wasted surplus solar, poor rural charging access,
-              and the slow, capital-heavy nature of fixed charging
-              infrastructure.
+              WATTONWAY is positioned around three connected inefficiencies:
+              wasted surplus solar, poor rural charging access, and the slow,
+              capital-heavy nature of fixed charging infrastructure.
             </p>
           </div>
           <div className="problem-grid">
@@ -55,12 +71,13 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Market ── */}
       <section id="market">
         <div className="container market-grid">
           <div className="fade">
             <div className="section-kicker">Market Context</div>
             <h2 className="section-title">
-              India’s energy and mobility convergence creates a once-in-a-decade
+              India's energy and mobility convergence creates a once-in-a-decade
               opening.
             </h2>
             <p className="section-copy">
@@ -68,16 +85,13 @@ export default function Hero() {
               capacity, a large rural charging whitespace, and untapped
               agrivoltaic potential.
             </p>
-            <div className="market-panel mt-5.5">
+            <div className="market-panel">
               <small>Why now</small>
-              <h3>
-                Policy tailwinds + infrastructure gaps + renewable surplus
-              </h3>
+              <h3>Policy tailwinds + infrastructure gaps + renewable surplus</h3>
               <p>
-                WATTONWAY is framed as an infrastructure layer for India’s
-                clean-energy future, designed for rural and semi-urban markets
-                where fixed alternatives scale slowly and leave underserved
-                demand behind.
+                WATTONWAY is an infrastructure layer for India's clean-energy
+                future, designed for rural and semi-urban markets where fixed
+                alternatives scale slowly and leave underserved demand behind.
               </p>
             </div>
           </div>
@@ -85,41 +99,34 @@ export default function Hero() {
             <div className="stat-box">
               <strong>30%</strong>
               <span>EV target</span>
-              <em>India’s EV penetration goal by 2030.</em>
+              <em>India's EV penetration goal by 2030.</em>
             </div>
             <div className="stat-box">
               <strong>85GW</strong>
               <span>Solar capacity</span>
-              <em>Installed solar power referenced in the presentation.</em>
+              <em>Installed solar power in India.</em>
             </div>
             <div className="stat-box">
               <strong>&lt;2%</strong>
               <span>Rural coverage</span>
-              <em>
-                Current charging coverage in non-urban India highlighted as a
-                major gap.
-              </em>
+              <em>Current charging coverage in non-urban India.</em>
             </div>
             <div className="stat-box">
               <strong>0 to 1</strong>
               <span>Agrivoltaics opportunity</span>
-              <em>
-                Dual-use solar farmland remains largely unmonetised beyond grid
-                export.
-              </em>
+              <em>Dual-use solar farmland largely unmonetised.</em>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ── Solution ── */}
       <section id="solution">
         <div className="container">
           <div className="section-top fade">
             <div>
               <div className="section-kicker">The WATTONWAY Model</div>
-              <h2 className="section-title">
-                Collect. Store. Deliver. Charge.
-              </h2>
+              <h2 className="section-title">Collect. Store. Deliver. Charge.</h2>
             </div>
             <p className="section-copy">
               The operating model closes the loop between stranded solar energy
@@ -149,7 +156,7 @@ export default function Hero() {
               <h3>Deliver</h3>
               <p>
                 Route GPS-guided vans to high-demand corridors, peri-urban
-                zones, highways, events, and other emerging hotspots.
+                zones, highways, events, and emerging hotspots.
               </p>
             </div>
             <div className="flow-step fade">
@@ -164,6 +171,7 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Technology ── */}
       <section id="technology">
         <div className="container">
           <div className="section-top fade">
@@ -175,9 +183,8 @@ export default function Hero() {
               </h2>
             </div>
             <p className="section-copy">
-              The PDF describes a stack that blends battery-swapping hardware,
-              mobile charging vans, fast-charge outputs, GPS software, and IoT
-              monitoring.
+              A stack that blends battery-swapping hardware, mobile charging
+              vans, fast-charge outputs, GPS software, and IoT monitoring.
             </p>
           </div>
           <div className="tech-grid">
@@ -185,8 +192,8 @@ export default function Hero() {
               <div className="icon">🔄</div>
               <h3>Swappable Battery System</h3>
               <p>
-                Modular battery packs designed to be charged at farm solar nodes
-                and hot-swapped quickly to maximise uptime.
+                Modular battery packs charged at farm solar nodes and
+                hot-swapped quickly to maximise uptime.
               </p>
             </article>
             <article className="card fade">
@@ -201,8 +208,8 @@ export default function Hero() {
               <div className="icon">⚡</div>
               <h3>High-Speed Charging Ports</h3>
               <p>
-                Multi-standard outputs supporting simultaneous charging use
-                cases across two-, three-, and four-wheeler segments.
+                Multi-standard outputs supporting simultaneous charging across
+                two-, three-, and four-wheeler segments.
               </p>
             </article>
             <article className="card fade">
@@ -210,7 +217,7 @@ export default function Hero() {
               <h3>GPS-Enabled Smart App</h3>
               <p>
                 Real-time van location, slot booking, battery availability, and
-                payments in one mobile-first user experience.
+                payments in one mobile-first experience.
               </p>
             </article>
             <article className="card fade">
@@ -226,13 +233,14 @@ export default function Hero() {
               <h3>Fleet Intelligence Layer</h3>
               <p>
                 Operational data, location demand patterns, and route
-                utilisation together create a defensible optimisation engine.
+                utilisation create a defensible optimisation engine.
               </p>
             </article>
           </div>
         </div>
       </section>
 
+      {/* ── Advantage ── */}
       <section id="advantage">
         <div className="container">
           <div className="section-top fade">
@@ -241,9 +249,9 @@ export default function Hero() {
               <h2 className="section-title">No grid. No cables. No limits.</h2>
             </div>
             <p className="section-copy">
-              The pitch emphasises zero fixed infrastructure, farmer income
-              generation, lower cost energy procurement, rapid regional
-              scalability, and first-mover advantage.
+              Zero fixed infrastructure, farmer income generation, lower cost
+              energy procurement, rapid regional scalability, and first-mover
+              advantage.
             </p>
           </div>
           <div className="edge-grid">
@@ -252,43 +260,25 @@ export default function Hero() {
               <p>
                 Deploys in days rather than months, creates recurring income for
                 farmers, scales van-by-van into new districts, and follows
-                demand instead of waiting for demand to come to a fixed site.
+                demand instead of waiting for it.
               </p>
-              <div className="grid gap-3.5 mt-4.5">
-                <div>
-                  <strong
-                    style={{
-                      color: "#fff",
-                    }}
-                  >
-                    Zero fixed infrastructure
-                  </strong>
+              <div className="edge-points">
+                <div className="edge-point">
+                  <strong>Zero fixed infrastructure</strong>
                   <p>
-                    No land acquisition, no heavy civil works, and no dependence
-                    on permanent grid buildouts.
+                    No land acquisition, no heavy civil works, no dependence on
+                    permanent grid buildouts.
                   </p>
                 </div>
-                <div>
-                  <strong
-                    style={{
-                      color: "#fff",
-                    }}
-                  >
-                    Demand-responsive deployment
-                  </strong>
+                <div className="edge-point">
+                  <strong>Demand-responsive deployment</strong>
                   <p>
-                    Energy can be directed to highways, town clusters, event
-                    spikes, and under-served rural corridors.
+                    Energy directed to highways, town clusters, event spikes,
+                    and under-served rural corridors.
                   </p>
                 </div>
-                <div>
-                  <strong
-                    style={{
-                      color: "#fff",
-                    }}
-                  >
-                    Farmer-linked energy supply
-                  </strong>
+                <div className="edge-point">
+                  <strong>Farmer-linked energy supply</strong>
                   <p>
                     Farmer participation becomes part of the moat through
                     recurring supply relationships.
@@ -303,13 +293,13 @@ export default function Hero() {
                     <th>Feature</th>
                     <th>WATTONWAY</th>
                     <th>Fixed Stations</th>
-                    <th>Grid Mobile Units</th>
-                    <th>Battery Swaps (Urban)</th>
+                    <th>Grid Mobile</th>
+                    <th>Battery Swaps</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Infrastructure Required</td>
+                    <td>Infrastructure</td>
                     <td className="yes">None</td>
                     <td className="no">Heavy</td>
                     <td className="mid">Partial</td>
@@ -323,14 +313,14 @@ export default function Hero() {
                     <td className="no">Months</td>
                   </tr>
                   <tr>
-                    <td>Rural / Highway Coverage</td>
+                    <td>Rural Coverage</td>
                     <td className="yes">Full</td>
                     <td className="no">Limited</td>
                     <td className="mid">Partial</td>
                     <td className="no">Urban only</td>
                   </tr>
                   <tr>
-                    <td>Farmer Revenue Integration</td>
+                    <td>Farmer Revenue</td>
                     <td className="yes">Yes</td>
                     <td className="no">No</td>
                     <td className="no">No</td>
@@ -344,7 +334,7 @@ export default function Hero() {
                     <td className="mid">Medium</td>
                   </tr>
                   <tr>
-                    <td>Cost of Energy (est.)</td>
+                    <td>Cost of Energy</td>
                     <td className="yes">Low</td>
                     <td className="mid">Medium</td>
                     <td className="mid">Medium</td>
@@ -357,36 +347,22 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Revenue ── */}
       <section id="revenue">
         <div className="container">
           <div className="revenue-shell fade">
-            <div className="section-top mb-2">
+            <div className="section-top" style={{ marginBottom: 0 }}>
               <div>
-                <div
-                  className="section-kicker"
-                  style={{
-                    color: "#92b393",
-                  }}
-                >
+                <div className="section-kicker" style={{ color: "#92b393" }}>
                   Revenue Engine
                 </div>
-                <h2
-                  className="section-title"
-                  style={{
-                    color: "#fff",
-                  }}
-                >
+                <h2 className="section-title" style={{ color: "#fff" }}>
                   Multiple income streams. One integrated platform.
                 </h2>
               </div>
-              <p
-                className="section-copy"
-                style={{
-                  color: "#b4c0b6",
-                }}
-              >
-                The deck lays out five interconnected revenue lines designed to
-                compound as the fleet and farmer network expands.
+              <p className="section-copy" style={{ color: "#b4c0b6" }}>
+                Five interconnected revenue lines designed to compound as the
+                fleet and farmer network expands.
               </p>
             </div>
             <div className="revenue-grid">
@@ -394,9 +370,7 @@ export default function Hero() {
                 <div className="core">WATTONWAY</div>
                 <div className="orbit-item o1">
                   <strong>EV charging revenue</strong>
-                  <span>
-                    On-demand charging income from mobile deployments.
-                  </span>
+                  <span>On-demand charging income from mobile deployments.</span>
                 </div>
                 <div className="orbit-item o2">
                   <strong>Battery swapping services</strong>
@@ -427,38 +401,32 @@ export default function Hero() {
                   </span>
                 </div>
               </div>
-              <div
-                className="card"
-                style={{
-                  backgroundColor: "#f8fbf7",
-                }}
-              >
+              <div className="card" style={{ background: "#f8fbf7" }}>
                 <div className="icon">💡</div>
                 <h3>Why this model is attractive</h3>
                 <p>
                   Diversified revenue lowers dependence on a single monetisation
-                  path. As mobile charging activity grows, software,
-                  subscriptions, fleet contracts, and the energy layer reinforce
-                  the business model.
+                  path. As mobile charging grows, subscriptions, fleet
+                  contracts, and the energy layer reinforce the business model.
                 </p>
-                <div className="mt-4.5 grid gap-3">
-                  <div className="card soft p-4">
+                <div style={{ marginTop: 18, display: "grid", gap: 12 }}>
+                  <div className="card soft" style={{ padding: 16 }}>
                     <strong>Asset-light scaling</strong>
-                    <p className="mt-1.5">
+                    <p style={{ marginTop: 6 }}>
                       Each van becomes a new revenue unit without a full
                       infrastructure rebuild.
                     </p>
                   </div>
-                  <div className="card soft p-4">
+                  <div className="card soft" style={{ padding: 16 }}>
                     <strong>Recurring cash flow</strong>
-                    <p className="mt-1.5">
+                    <p style={{ marginTop: 6 }}>
                       Subscriptions and fleet contracts add predictability to
                       usage-based revenue.
                     </p>
                   </div>
-                  <div className="card soft p-4">
+                  <div className="card soft" style={{ padding: 16 }}>
                     <strong>Network effects</strong>
-                    <p className="mt-1.5">
+                    <p style={{ marginTop: 6 }}>
                       More farmers, more vans, and more location data increase
                       efficiency over time.
                     </p>
@@ -470,18 +438,17 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Traction ── */}
       <section id="traction">
         <div className="container">
           <div className="section-top fade">
             <div>
               <div className="section-kicker">Traction & Validation</div>
-              <h2 className="section-title">
-                Early signals. Strong conviction.
-              </h2>
+              <h2 className="section-title">Early signals. Strong conviction.</h2>
             </div>
             <p className="section-copy">
-              The presentation describes WATTONWAY as operationally ready at an
-              early stage, with validation across supply, demand, and logistics.
+              WATTONWAY is operationally ready at an early stage, with
+              validation across supply, demand, and logistics.
             </p>
           </div>
           <div className="traction-grid">
@@ -489,7 +456,7 @@ export default function Hero() {
               <div className="icon">🌾</div>
               <h3>Farmer network pilot in planning</h3>
               <p>
-                Discussions are underway with farmer collectives in solar-rich
+                Discussions underway with farmer collectives in solar-rich
                 districts for structured charging agreements.
               </p>
             </article>
@@ -521,6 +488,7 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Roadmap ── */}
       <section id="roadmap">
         <div className="container">
           <div className="section-top fade">
@@ -531,8 +499,8 @@ export default function Hero() {
               </h2>
             </div>
             <p className="section-copy">
-              The roadmap in the PDF lays out a staged expansion from 1–2 vans
-              to a 500+ van decentralised energy network.
+              A staged expansion from 1–2 vans to a 500+ van decentralised
+              energy network.
             </p>
           </div>
           <div className="roadmap">
@@ -572,6 +540,7 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Market size ── */}
       <section id="market-size">
         <div className="container market-size">
           <div className="headline-board fade">
@@ -579,77 +548,52 @@ export default function Hero() {
               Market Size
             </div>
             <div className="big">$7B+</div>
-            <h3>
-              A multi-billion dollar intersection of clean energy and mobility
-            </h3>
+            <h3>A multi-billion dollar intersection of clean energy and mobility</h3>
             <p>
-              The presentation frames the opportunity around a projected India
-              EV charging market, a large new EV base by 2030, a 500GW renewable
-              target, and a broader global clean-energy distribution
+              Projected India EV charging market, 80M+ new EVs by 2030, a 500GW
+              renewable target, and a broader global clean-energy distribution
               opportunity.
             </p>
           </div>
           <div className="fade">
             <div className="card soft">
-              <strong
-                className="block"
-                style={{
-                  fontSize: "42px",
-                  color: "#234228",
-                }}
-              >
+              <strong style={{ fontSize: 40, color: "#234228", display: "block" }}>
                 80M+
               </strong>
-              <span className="block mt-2 font-extrabold">New EVs by 2030</span>
-              <p className="mt-2">
+              <span style={{ display: "block", marginTop: 8, fontWeight: 800 }}>
+                New EVs by 2030
+              </span>
+              <p style={{ marginTop: 8 }}>
                 Projected new registrations demanding charging access.
               </p>
             </div>
             <div className="market-mini">
               <div className="card soft">
-                <strong
-                  style={{
-                    fontSize: "34px",
-                    color: "#234228",
-                    display: "block",
-                  }}
-                >
+                <strong style={{ fontSize: 30, color: "#234228", display: "block" }}>
                   500GW
                 </strong>
-                <span className="block mt-2 font-extrabold">
+                <span style={{ display: "block", marginTop: 8, fontWeight: 800 }}>
                   Renewable target
                 </span>
               </div>
               <div className="card soft">
-                <strong
-                  style={{
-                    fontSize: "34px",
-                    color: "#234228",
-                    display: "block",
-                  }}
-                >
+                <strong style={{ fontSize: 30, color: "#234228", display: "block" }}>
                   $2T
                 </strong>
-                <span className="block mt-2 font-extrabold">
+                <span style={{ display: "block", marginTop: 8, fontWeight: 800 }}>
                   Global opportunity
                 </span>
               </div>
               <div className="card soft">
-                <strong
-                  style={{
-                    fontSize: "34px",
-                    color: "#234228",
-                    display: "block",
-                  }}
-                >
+                <strong style={{ fontSize: 30, color: "#234228", display: "block" }}>
                   40–60%
                 </strong>
-                <span className="block mt-2 font-extrabold">
-                  Potential corridor share
+                <span style={{ display: "block", marginTop: 8, fontWeight: 800 }}>
+                  Corridor share potential
                 </span>
               </div>
             </div>
-            <div className="card mt-4.5">
+            <div className="card" style={{ marginTop: 16 }}>
               <h3>Why the window is open now</h3>
               <p>
                 Supportive EV policy, structurally underserved rural and
@@ -661,6 +605,7 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Team ── */}
       <section id="team">
         <div className="container">
           <div className="section-top fade">
@@ -671,8 +616,8 @@ export default function Hero() {
               </h2>
             </div>
             <p className="section-copy">
-              The deck presents three core leadership pillars across company
-              vision, technology, and operations/partnerships.
+              Three core leadership pillars across company vision, technology,
+              and operations/partnerships.
             </p>
           </div>
           <div className="team-grid">
@@ -704,6 +649,7 @@ export default function Hero() {
         </div>
       </section>
 
+      {/* ── Invest / Funding ── */}
       <section id="invest">
         <div className="container funding-wrap fade">
           <div className="funding-grid">
@@ -711,23 +657,12 @@ export default function Hero() {
               <div className="section-kicker" style={{ color: "#9bb89a" }}>
                 Funding Round
               </div>
-              <h2
-                className="section-title"
-                style={{
-                  color: "#fff",
-                }}
-              >
-                Join at the ground floor of India’s decentralised energy
+              <h2 className="section-title" style={{ color: "#fff" }}>
+                Join at the ground floor of India's decentralised energy
                 transition.
               </h2>
               <div className="raise">₹133 Cr</div>
-              <p
-                style={{
-                  color: "#b8c4bb",
-                  lineHeight: "1.8",
-                  fontSize: "17px",
-                }}
-              >
+              <p style={{ color: "#b8c4bb", lineHeight: 1.8, fontSize: 16 }}>
                 Seed / Pre-Series A round to fund pilot deployment, technology
                 build-out, and early market validation.
               </p>
@@ -745,7 +680,7 @@ export default function Hero() {
                   <span>30%</span>
                 </div>
                 <div className="bar">
-                  <div className="fill w-[30%]"></div>
+                  <div className="fill" style={{ width: "30%" }} />
                 </div>
               </div>
               <div className="use-item">
@@ -754,7 +689,7 @@ export default function Hero() {
                   <span>25%</span>
                 </div>
                 <div className="bar">
-                  <div className="fill w-1/4"></div>
+                  <div className="fill" style={{ width: "25%" }} />
                 </div>
               </div>
               <div className="use-item">
@@ -763,7 +698,7 @@ export default function Hero() {
                   <span>25%</span>
                 </div>
                 <div className="bar">
-                  <div className="fill w-1/4"></div>
+                  <div className="fill" style={{ width: "25%" }} />
                 </div>
               </div>
               <div className="use-item">
@@ -772,84 +707,67 @@ export default function Hero() {
                   <span>20%</span>
                 </div>
                 <div className="bar">
-                  <div className="fill w-1/5"></div>
+                  <div className="fill" style={{ width: "20%" }} />
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Contact form */}
           <div className="contact-panel" id="contact">
             <div className="section-kicker">Investor Contact</div>
-            <h2
-              style={{
-                fontSize: "36px",
-                lineHeight: "1.05",
-                fontWeight: "900",
-                marginTop: "8px",
-              }}
-            >
+            <h2>
               Request the investor deck, meeting, or partnership discussion.
             </h2>
-            <p
-              style={{
-                marginTop: "10px",
-                color: "#627064",
-                lineHeight: "1.8",
-              }}
-            >
-              This section is designed for normal website visitors and
-              investors. It gives them a clear path to reach out for the pitch
-              deck, commercial partnership discussions, or an investment call.
+            <p>
+              Reach out for the pitch deck, commercial partnership discussions,
+              or an investment call.
             </p>
-            <form
-              action="mailto:contact@wattonway.in"
-              method="post"
-              encType="text/plain"
-            >
-              <div className="contact-grid">
-                <input
-                  className="input"
-                  type="text"
-                  name="name"
-                  placeholder="Full name"
-                  required
-                />
-                <input
-                  className="input"
-                  type="email"
-                  name="email"
-                  placeholder="Work email"
-                  required
-                />
-                <input
-                  className="input"
-                  type="text"
-                  name="company"
-                  placeholder="Company / Fund"
-                />
-                <input
-                  className="input"
-                  type="text"
-                  name="interest"
-                  placeholder="Interest: Investor / Fleet / Partner"
-                />
-                <textarea
-                  name="message"
-                  placeholder="Tell us about your interest, cheque size, market focus, or partnership requirements"
-                ></textarea>
-              </div>
-              <div className="submit-row">
-                <p className="note">
-                  Direct email: <strong>contact@wattonway.in</strong>
-                  <br />
-                  Suggested CTA for launch: “Invest in WATTONWAY” or “Book an
-                  investor conversation”.
+
+            {status === "sent" ? (
+              <div style={{
+                marginTop: 28,
+                padding: "28px 24px",
+                borderRadius: 16,
+                background: "linear-gradient(135deg, #f0faf0, #e6f4e6)",
+                border: "1px solid rgba(107,196,109,0.3)",
+                textAlign: "center",
+              }}>
+                <div style={{ fontSize: 36, marginBottom: 10 }}>✅</div>
+                <strong style={{ fontSize: 18, color: "#162218" }}>Message sent!</strong>
+                <p style={{ marginTop: 8, color: "#627064" }}>
+                  We'll be in touch at your email shortly.
                 </p>
-                <button className="btn btn-primary" type="submit">
-                  Contact Us to Invest
-                </button>
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="contact-grid">
+                  <input className="input" type="text" name="name" placeholder="Full name" required />
+                  <input className="input" type="email" name="email" placeholder="Work email" required />
+                  <input className="input" type="text" name="company" placeholder="Company / Fund" />
+                  <input className="input" type="text" name="interest" placeholder="Interest: Investor / Fleet / Partner" />
+                  <textarea name="message" placeholder="Tell us about your interest, cheque size, market focus, or partnership requirements" />
+                </div>
+                <div className="submit-row">
+                  <p className="note">
+                    Direct email: <strong>contact@wattonway.in</strong>
+                  </p>
+                  <button
+                    className="btn btn-primary"
+                    type="submit"
+                    disabled={status === "sending"}
+                    style={{ opacity: status === "sending" ? 0.7 : 1 }}
+                  >
+                    {status === "sending" ? "Sending…" : "Contact Us to Invest"}
+                  </button>
+                </div>
+                {status === "error" && (
+                  <p style={{ marginTop: 12, color: "#b84a3f", fontSize: 14 }}>
+                    Something went wrong. Please email us directly at contact@wattonway.in
+                  </p>
+                )}
+              </form>
+            )}
           </div>
         </div>
       </section>
