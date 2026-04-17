@@ -1,4 +1,9 @@
 /* ─── Sticky nav ─────────────────────────────────────────── */
+@keyframes navSlideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
 .nav-wrap {
   position: sticky;
   top: 0;
@@ -7,6 +12,7 @@
   -webkit-backdrop-filter: blur(16px);
   background: rgba(10, 20, 15, 0.78);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  animation: navSlideDown 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 nav {
@@ -28,17 +34,12 @@ nav {
   flex-shrink: 0;
 }
 
-.brand-mark {
-  width: 40px;
+.brand-logo {
   height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--green), var(--gold));
-  display: grid;
-  place-items: center;
-  color: #0d140f;
-  font-size: 18px;
-  box-shadow: 0 4px 14px rgba(107, 196, 109, 0.35);
-  flex-shrink: 0;
+  width: auto;
+  /* Invert black text to white for the dark navbar */
+  filter: invert(1) brightness(2);
+  display: block;
 }
 
 .nav-links {
@@ -52,9 +53,32 @@ nav {
 .nav-links a {
   opacity: 0.85;
   transition: color 0.15s ease, opacity 0.15s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--green);
+  transition: width 0.2s ease;
 }
 
 .nav-links a:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-links a.active {
   color: #fff;
   opacity: 1;
 }

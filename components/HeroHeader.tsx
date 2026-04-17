@@ -1,25 +1,26 @@
 export default function HeroHeader() {
   return (
-    <header className="hero" id="top">
+    <header className="hero" id="top" aria-label="WATTONWAY — Mobile EV Charging & Clean Energy Investment India">
       <div className="container hero-grid">
         {/* Left: copy */}
         <div className="fade">
           <div className="eyebrow">
-            Clean Energy&nbsp;•&nbsp;Agrivoltaics&nbsp;•&nbsp;Mobile EV Charging
+            Clean Energy&nbsp;•&nbsp;Agrivoltaics&nbsp;•&nbsp;Mobile EV Charging India
           </div>
           <h1>
-            Powering the <span>Future</span>, Everywhere.
+            India's Mobile <span>EV Charging</span> Network, Powered by Farmers.
           </h1>
           <p className="lead">
-            WATTONWAY is a decentralised clean energy network that procures
-            excess solar power from farmers and delivers it through mobile EV
-            charging systems powered by swappable battery technology.
+            WATTONWAY is India's first decentralised mobile EV charging network —
+            procuring excess solar power from farmers and delivering it through
+            mobile EV charging vans and swappable battery stations across rural
+            and highway corridors.
           </p>
           <div className="hero-actions">
-            <a className="btn btn-primary" href="#invest">
+            <a className="btn btn-primary" href="#invest" aria-label="Invest in WATTONWAY EV charging startup">
               Invest in WATTONWAY
             </a>
-            <a className="btn btn-secondary" href="#solution">
+            <a className="btn btn-secondary" href="#solution" aria-label="Explore WATTONWAY mobile EV charging model">
               Explore the Model
             </a>
           </div>
@@ -34,7 +35,7 @@ export default function HeroHeader() {
             </div>
             <div className="metric">
               <strong>&lt;2%</strong>
-              <span>Rural charging coverage</span>
+              <span>Rural EV charging coverage</span>
             </div>
           </div>
         </div>

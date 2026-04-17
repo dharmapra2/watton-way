@@ -9,8 +9,13 @@ export default function Navbar() {
       <div className="container">
         <nav>
           <a className="brand" href="#top">
-            <span className="brand-mark">⚡</span>
-            <span>WATTONWAY</span>
+            <img
+              src="/logo.svg"
+              alt="WATTONWAY"
+              className="brand-logo"
+              width={180}
+              height={45}
+            />
           </a>
 
           <div className="nav-links">

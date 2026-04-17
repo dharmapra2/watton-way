@@ -12,7 +12,7 @@ function Footer() {
           </span>
         </div>
         <div>contact@wattonway.in</div>
-        <div>© 2025 WATTONWAY. All rights reserved.</div>
+        <div>© 2026 WATTONWAY. All rights reserved.</div>
       </div>
     </footer>
   );

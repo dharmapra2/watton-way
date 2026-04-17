@@ -459,7 +459,7 @@ export default function Hero() {
               <h2 className="section-title" style={{ color: "#fff" }}>
                 Join at the ground floor of India's decentralised energy transition.
               </h2>
-              <div className="raise">₹133 Cr</div>
+              <div className="raise">₹1 to ₹3 Cr</div>
               <p style={{ color: "#b8c4bb", lineHeight: 1.8, fontSize: 16 }}>
                 Seed / Pre-Series A round to fund pilot deployment, technology build-out, and early market validation.
               </p>
