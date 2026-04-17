@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import "../styles/navbar.css";
 import "../styles/scene.css";
@@ -91,7 +92,12 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    },
   },
   alternates: { canonical: BASE_URL },
   category: "technology",
@@ -132,7 +138,10 @@ const jsonLd = {
       publisher: { "@id": `${BASE_URL}/#organization` },
       potentialAction: {
         "@type": "SearchAction",
-        target: { "@type": "EntryPoint", urlTemplate: `${BASE_URL}/?q={search_term_string}` },
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${BASE_URL}/?q={search_term_string}`,
+        },
         "query-input": "required name=search_term_string",
       },
     },
@@ -144,7 +153,10 @@ const jsonLd = {
       description: DESCRIPTION,
       isPartOf: { "@id": `${BASE_URL}/#website` },
       about: { "@id": `${BASE_URL}/#organization` },
-      speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", ".lead", ".section-title"] },
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".lead", ".section-title"],
+      },
     },
     {
       "@type": "Product",
@@ -179,7 +191,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>{children}</body>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {children}
+      </body>
+      <SpeedInsights />
     </html>
   );
 }
