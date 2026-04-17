@@ -10,7 +10,7 @@ export default function Navbar() {
         <nav>
           <a className="brand" href="#top">
             <img
-              src="/logo.svg"
+              src="/wattonway-logo-traced.svg"
               alt="WATTONWAY"
               className="brand-logo"
               width={180}
