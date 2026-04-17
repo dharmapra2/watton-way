@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 
 export default function Home() {
   useEffect(() => {
-    const els = document.querySelectorAll(".fade");
+    const els = document.querySelectorAll(".fade, .fade-left, .fade-right, .fade-scale");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -23,7 +23,6 @@ export default function Home() {
 
     els.forEach((el) => observer.observe(el));
 
-    // Fallback: reveal everything after 1.5s in case observer misses elements
     const fallback = setTimeout(() => {
       els.forEach((el) => el.classList.add("show"));
     }, 1500);
