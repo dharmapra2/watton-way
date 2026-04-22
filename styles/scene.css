@@ -1,659 +1,1023 @@
-/* ─── Animated scene wrapper ─────────────────────────────── */
-.animated-scene {
+/* ═══════════════════════════════════════════════════════════
+   WATTONWAY Scene  —  24s story loop
+   Farm (left) ──road──► City (right)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Root ───────────────────────────────────────────────── */
+.scene-root {
   position: relative;
-  min-height: 680px;
-  background: linear-gradient(
-    180deg,
-    #e7efe4 0%,
-    #d8e3d3 32%,
-    #a8be8c 33%,
-    #86a86d 100%
-  );
-  isolation: isolate;
+  width: 100%;
+  height: 480px;
   overflow: hidden;
+  border-radius: 20px;
+  background: #b8dff5;
 }
 
 /* ─── Sky ────────────────────────────────────────────────── */
-.scene-sky {
+.s-sky {
   position: absolute;
-  inset: 0 0 42% 0;
-  background: linear-gradient(
-    180deg,
-    #edf4e9 0%,
-    #dfe8d9 60%,
-    rgba(223, 232, 217, 0) 100%
-  );
+  inset: 0 0 55% 0;
+  background: linear-gradient(180deg, #7ec8e8 0%, #c8eaf8 100%);
 }
 
 /* ─── Sun ────────────────────────────────────────────────── */
-.sun {
+.s-sun {
   position: absolute;
-  top: 60px;
-  right: 80px;
-  width: 88px;
-  height: 88px;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    #ffe9a8 0%,
-    #ffd36d 55%,
-    rgba(255, 211, 109, 0.3) 70%,
-    rgba(255, 211, 109, 0) 100%
-  );
-  animation: sunFloat 5.5s ease-in-out infinite;
+  background: radial-gradient(circle, #fffaaa 0%, #ffd84d 50%, rgba(255,216,77,.2) 72%, transparent 100%);
+  animation: sSunPulse 4s ease-in-out infinite;
+  z-index: 2;
 }
 
 /* ─── Clouds ─────────────────────────────────────────────── */
-.cloud {
+.s-cloud {
   position: absolute;
-  height: 26px;
+  height: 20px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.78);
-  filter: blur(0.3px);
+  background: rgba(255,255,255,.85);
 }
-
-.cloud::before,
-.cloud::after {
+.s-cloud::before, .s-cloud::after {
   content: "";
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255,255,255,.85);
 }
-
-.cloud-1 {
-  top: 80px;
-  left: 48px;
-  width: 110px;
-  animation: cloudMove 22s linear infinite;
+.s-cloud-1 {
+  top: 40px; left: -140px; width: 110px;
+  animation: sCloudMove 22s linear infinite;
 }
-
-.cloud-1::before {
-  width: 36px;
-  height: 36px;
-  left: 12px;
-  top: -16px;
+.s-cloud-1::before { width: 40px; height: 40px; left: 12px; top: -18px; }
+.s-cloud-1::after  { width: 52px; height: 52px; left: 44px; top: -24px; }
+.s-cloud-2 {
+  top: 68px; left: -200px; width: 130px;
+  animation: sCloudMove 32s linear infinite 10s;
 }
+.s-cloud-2::before { width: 44px; height: 44px; left: 16px; top: -20px; }
+.s-cloud-2::after  { width: 58px; height: 58px; left: 56px; top: -28px; }
 
-.cloud-1::after {
-  width: 46px;
-  height: 46px;
-  left: 48px;
-  top: -22px;
-}
-
-.cloud-2 {
-  top: 136px;
-  left: 240px;
-  width: 130px;
-  animation: cloudMove 26s linear infinite reverse;
-}
-
-.cloud-2::before {
-  width: 40px;
-  height: 40px;
-  left: 18px;
-  top: -14px;
-}
-
-.cloud-2::after {
-  width: 52px;
-  height: 52px;
-  left: 62px;
-  top: -26px;
+/* ─── Ground ─────────────────────────────────────────────── */
+.s-ground {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 260px;
+  background: linear-gradient(180deg, #a8cc70 0%, #78a048 100%);
 }
 
 /* ─── Hills ──────────────────────────────────────────────── */
-.scene-hills {
+.s-hill-1 {
   position: absolute;
-  left: -5%;
-  right: -5%;
-  border-radius: 50%;
-  transform-origin: center bottom;
+  bottom: 220px;
+  left: -60px; right: -60px;
+  height: 140px;
+  background: #90b860;
+  clip-path: ellipse(50% 100% at 50% 100%);
 }
-
-.hill-back {
-  bottom: 270px;
-  height: 200px;
-  background: #9db58a;
-  clip-path: ellipse(56% 50% at 50% 50%);
-}
-
-.hill-mid {
-  bottom: 200px;
-  height: 180px;
-  background: #88a66f;
-  clip-path: ellipse(60% 50% at 50% 50%);
-}
-
-/* ─── Ground ─────────────────────────────────────────────── */
-.scene-ground {
+.s-hill-2 {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 260px;
-  background: linear-gradient(180deg, #97b178 0%, #78975b 100%);
+  bottom: 210px;
+  left: -60px; right: -60px;
+  height: 110px;
+  background: #80a850;
+  clip-path: ellipse(55% 100% at 35% 100%);
 }
 
-/* ─── Fields ─────────────────────────────────────────────── */
-.field {
+/* ─── ROAD (straight horizontal with perspective lines) ──── */
+.s-road-wrap {
   position: absolute;
-  bottom: 0;
-  height: 210px;
-  border-top: 3px solid rgba(255, 255, 255, 0.08);
-  background: repeating-linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0.07) 0 2px,
-      transparent 2px 28px
-    ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.04));
-  transform: skewX(-18deg);
-  opacity: 0.9;
-}
-
-.field-1 {
-  left: -30px;
-  width: 240px;
-  background-color: #88a86a;
-}
-
-.field-2 {
-  left: 185px;
-  width: 230px;
-  background-color: #7ea05f;
-}
-
-.field-3 {
-  left: 400px;
-  width: 320px;
-  background-color: #6f8e54;
-}
-
-/* ─── Solar panels ───────────────────────────────────────── */
-.solar {
-  position: absolute;
-  bottom: 188px;
-  width: 150px;
+  left: 0; right: 0;
+  bottom: 60px;
   height: 80px;
-  transform: skewX(-20deg) rotate(-10deg);
-  animation: solarShine 4s ease-in-out infinite;
-}
-
-.solar span {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 17px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #24362a, #17231b);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.solar span:nth-child(1) {
-  top: 0;
-}
-
-.solar span:nth-child(2) {
-  top: 23px;
-}
-
-.solar span:nth-child(3) {
-  top: 46px;
-}
-
-.solar::after {
-  content: "";
-  position: absolute;
-  left: 20px;
-  bottom: -44px;
-  width: 4px;
-  height: 52px;
-  background: #546756;
-  box-shadow: 40px 0 0 #546756, 80px 0 0 #546756, 120px 0 0 #546756;
-}
-
-.solar-1 {
-  left: 64px;
-}
-
-.solar-2 {
-  left: 224px;
-  bottom: 200px;
-  transform: skewX(-20deg) rotate(-8deg) scale(1.08);
-}
-
-.solar-3 {
-  left: 408px;
-  bottom: 194px;
-}
-
-/* ─── Charge station ─────────────────────────────────────── */
-.charge-station {
-  position: absolute;
-  right: 88px;
-  bottom: 158px;
-  width: 76px;
-  height: 158px;
-  z-index: 4;
-}
-
-.station-head {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 44px;
-  height: 116px;
-  border-radius: 16px;
-  background: linear-gradient(180deg, #f3f7f1, #d7e2d4);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-}
-
-.station-head::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: 14px;
-  height: 34px;
-  border-radius: 9px;
-  background: #bfd3bb;
-}
-
-.station-head::after {
-  content: "";
-  position: absolute;
-  left: 14px;
-  bottom: 16px;
-  width: 14px;
-  height: 22px;
-  border-radius: 7px;
-  background: #6bc46d;
-}
-
-.station-wire {
-  position: absolute;
-  left: 0;
-  bottom: 50px;
-  width: 46px;
-  height: 56px;
-  border: 4px solid #496d4f;
-  border-color: #496d4f transparent transparent transparent;
-  border-radius: 50%;
-  transform: rotate(-8deg);
-}
-
-.station-pulse {
-  position: absolute;
-  right: 8px;
-  top: 16px;
-  border-radius: 50%;
-  border: 2px solid rgba(107, 196, 109, 0.5);
-  animation: pulse 2.4s ease-out infinite;
-}
-
-.pulse-1 {
-  width: 24px;
-  height: 24px;
-}
-
-.pulse-2 {
-  width: 40px;
-  height: 40px;
-  right: 0;
-  top: 8px;
-  animation-delay: 0.8s;
-}
-
-/* ─── Road ───────────────────────────────────────────────── */
-.van-path {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 122px;
-  height: 90px;
-  background: linear-gradient(180deg, #636a63 0%, #4c524b 100%);
-  border-top: 3px solid rgba(255, 255, 255, 0.16);
-}
-
-.van-path::after {
-  content: "";
-  position: absolute;
-  left: 28px;
-  right: 28px;
-  top: 42px;
-  border-top: 4px dashed rgba(241, 245, 239, 0.65);
-}
-
-/* ─── Van ────────────────────────────────────────────────── */
-.van-wrap {
-  position: absolute;
-  left: -200px;
-  bottom: 122px;
-  width: 220px;
-  height: 130px;
   z-index: 5;
-  animation: driveAcross 11s linear infinite;
+}
+/* Main road surface */
+.s-road-surface {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #4a5248 0%, #5a6258 100%);
+  border-top: 2px solid rgba(255,255,255,.18);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+}
+/* Perspective side lines */
+.s-road-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom right, rgba(255,255,255,.06) 0%, transparent 50%),
+    linear-gradient(to bottom left,  rgba(255,255,255,.06) 0%, transparent 50%);
+}
+/* Centre dashes */
+.s-road-dashes {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 4px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,.7) 0px,
+    rgba(255,255,255,.7) 28px,
+    transparent 28px,
+    transparent 56px
+  );
+  animation: sDashScroll 1s linear infinite;
+}
+/* Road shoulder lines */
+.s-road-surface::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 8px;
+  height: 2px;
+  background: rgba(255,255,255,.12);
+  box-shadow: 0 60px 0 rgba(255,255,255,.12);
 }
 
-.van-body {
+/* ─── FARM ZONE (left) ───────────────────────────────────── */
+.s-farm {
   position: absolute;
+  left: 16px;
+  bottom: 140px;
+  width: 200px;
+  height: 200px;
+  z-index: 6;
+}
+
+/* Farm land */
+.s-farm-land {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 80px;
+  background: linear-gradient(180deg, #8cc060 0%, #64983a 100%);
+  border-radius: 6px 6px 0 0;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+/* Farm label badge */
+.s-label-farm {
+  position: absolute;
+  top: 0; left: 0;
+  background: rgba(255,255,255,.95);
+  border: 1px solid rgba(107,196,109,.6);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #1a3a1e;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 12;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+/* Solar panels */
+.s-panels {
+  position: absolute;
+  bottom: 76px;
+  left: 10px;
+  display: flex;
+  gap: 8px;
+  animation: sPanelGlow 3s ease-in-out infinite;
+}
+.s-panel {
+  width: 40px;
+  height: 52px;
+  background: linear-gradient(160deg, #1a3028, #0e1e16);
+  border-radius: 3px;
+  border: 1px solid rgba(107,196,109,.4);
+  transform: skewX(-6deg) rotate(-3deg);
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}
+.s-panel::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background:
+    repeating-linear-gradient(0deg,   rgba(107,196,109,.2) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(90deg,  rgba(107,196,109,.2) 0 1px, transparent 1px 11px);
+}
+/* Panel pole */
+.s-panel::after {
+  content: "";
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 24px;
+  background: #4a6050;
+}
+
+/* Battery Hub Station */
+.s-batt-station {
+  position: absolute;
+  bottom: 76px;
+  right: 10px;
+  width: 80px;
+  background: linear-gradient(180deg, #e8f4e4, #cce4c8);
+  border: 1.5px solid rgba(107,196,109,.5);
+  border-radius: 8px;
+  padding: 8px 6px 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+  z-index: 8;
+}
+.s-batt-station-label {
+  font-size: 6px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  color: #2a5a2a;
+  text-align: center;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+.s-batt-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.s-batt {
+  height: 8px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,.15);
+  background: #ddd;
+  position: relative;
+  overflow: hidden;
+}
+.s-batt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #5cb85c, #8de88d);
+  transform-origin: left;
+  animation: sBattFill 24s linear infinite;
+}
+.s-batt:nth-child(2)::after { animation-delay: -8s; }
+.s-batt:nth-child(3)::after { animation-delay: -16s; }
+
+/* Charging ports at battery hub */
+.s-charge-ports {
+  position: absolute;
+  bottom: 0;
   left: 0;
-  bottom: 18px;
-  width: 196px;
-  height: 74px;
-  border-radius: 16px 16px 14px 14px;
-  background: linear-gradient(180deg, #f9fbf8, #dfe8dc);
-  box-shadow: 0 18px 26px rgba(0, 0, 0, 0.18);
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
 }
+.s-charge-port {
+  width: 22px;
+  height: 18px;
+  background: linear-gradient(135deg, #fff, #e8f4e4);
+  border: 1px solid rgba(107,196,109,.4);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}
+.s-charge-port::before {
+  content: "⚡";
+  font-size: 10px;
+  opacity: 0;
+  animation: sPortCharge 24s linear infinite;
+}
+.s-charge-port:nth-child(2)::before { animation-delay: -8s; }
+.s-charge-port:nth-child(3)::before { animation-delay: -16s; }
 
-.van-cabin {
+/* Charging wires from battery hub to van */
+.s-hub-wire {
   position: absolute;
-  right: 0;
-  top: -17px;
-  width: 76px;
-  height: 56px;
-  border-radius: 18px 18px 8px 8px;
-  background: #eef4ed;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  bottom: 162px;
+  left: 240px;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(180deg, #5cb85c, #4cae4c);
+  border-radius: 2px;
+  z-index: 21;
+  transform-origin: top;
+  opacity: 0;
+  animation: sHubWire 24s linear infinite;
+}
+.s-hub-wire::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6bc46d;
+  box-shadow: 0 0 8px rgba(107,196,109,.8);
 }
 
-.van-window {
+/* Energy dots: solar → battery */
+.s-energy-line {
+  position: absolute;
+  bottom: 108px;
+  left: 60px;
+  width: 90px;
+  height: 2px;
+  z-index: 9;
+}
+.s-edot {
+  position: absolute;
+  top: -4px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #d9ffbf, #6bc46d);
+  filter: blur(.4px);
+  animation: sEnergyFlow 1.4s linear infinite;
+}
+.s-edot:nth-child(2) { animation-delay: .47s; }
+.s-edot:nth-child(3) { animation-delay: .94s; }
+
+/* ─── CITY ZONE (right) ──────────────────────────────────── */
+.s-city {
   position: absolute;
   right: 16px;
-  top: -3px;
-  width: 38px;
-  height: 19px;
-  border-radius: 7px;
-  background: #b9d0bf;
+  bottom: 140px;
+  width: 200px;
+  height: 200px;
+  z-index: 6;
 }
 
-.van-battery {
+.s-label-city {
   position: absolute;
-  left: 24px;
-  top: 20px;
-  width: 78px;
-  height: 22px;
-  border-radius: 7px;
-  background: #90c58d;
+  top: 0; right: 0;
+  background: rgba(255,255,255,.95);
+  border: 1px solid rgba(107,196,109,.6);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #1a3a1e;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 12;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 
-.van-battery::before {
+/* Buildings */
+.s-building {
+  position: absolute;
+  bottom: 0;
+  border-radius: 3px 3px 0 0;
+  box-shadow: inset -3px 0 8px rgba(0,0,0,.08);
+}
+.s-b1 { left: 0;    width: 44px;  height: 100px; background: #d8d0c0; }
+.s-b2 { left: 50px; width: 56px;  height: 140px; background: #ccc4b4; }
+.s-b3 { left: 112px;width: 40px;  height: 110px; background: #d4ccbc; }
+.s-b4 { right: 0;   width: 44px;  height: 90px;  background: #ddd5c5; }
+
+/* Windows */
+.s-win {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  background: #c8e4f4;
+  animation: sWinFlicker 3s ease-in-out infinite;
+}
+.s-win-a { top: 16px; left: 8px; }
+.s-win-b { top: 16px; left: 24px; }
+.s-win-c { top: 36px; left: 8px;  animation-delay: .7s; }
+.s-win-d { top: 36px; left: 24px; animation-delay: 1.4s; }
+.s-win-e { top: 16px; left: 10px; animation-delay: .3s; }
+.s-win-f { top: 16px; left: 34px; animation-delay: 1.1s; }
+.s-win-g { top: 38px; left: 10px; animation-delay: .6s; }
+.s-win-h { top: 38px; left: 34px; animation-delay: 1.8s; }
+.s-win-i { top: 60px; left: 10px; animation-delay: .9s; }
+.s-win-j { top: 60px; left: 34px; animation-delay: .2s; }
+
+/* ─── VAN ────────────────────────────────────────────────── */
+.s-van {
+  position: absolute;
+  bottom: 126px;
+  left: 180px;
+  width: 110px;
+  height: 80px;
+  z-index: 20;
+  animation: sVanTrip 24s linear infinite;
+}
+.s-van-body {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  width: 100px;
+  height: 52px;
+  border-radius: 12px 12px 10px 10px;
+  background: linear-gradient(180deg, #f0f8ee, #d4e8d0);
+  box-shadow: 0 8px 20px rgba(0,0,0,.22);
+}
+.s-van-cabin {
+  position: absolute;
+  right: 0; top: -16px;
+  width: 42px; height: 40px;
+  border-radius: 14px 14px 6px 6px;
+  background: #e4f0e0;
+  border: 1px solid rgba(0,0,0,.06);
+}
+.s-van-win {
+  position: absolute;
+  right: 8px; top: -4px;
+  width: 24px; height: 16px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #a8d4c0, #c4e4d4);
+}
+.s-van-batt {
+  position: absolute;
+  left: 10px; top: 14px;
+  width: 44px; height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #5cb85c, #4cae4c);
+  animation: sBattPulse 2s ease-in-out infinite;
+}
+.s-van-batt::after {
   content: "";
   position: absolute;
-  right: -7px;
-  top: 6px;
-  width: 6px;
-  height: 10px;
+  right: -4px; top: 3px;
+  width: 4px; height: 8px;
   border-radius: 2px;
-  background: #90c58d;
+  background: #5cb85c;
 }
-
-.van-light {
+.s-van-light {
   position: absolute;
-  right: -2px;
-  top: 28px;
-  width: 13px;
-  height: 9px;
-  border-radius: 5px;
+  right: -2px; top: 18px;
+  width: 10px; height: 8px;
+  border-radius: 4px;
   background: #ffd57b;
-  box-shadow: 0 0 16px rgba(255, 213, 123, 0.85);
-  animation: blink 1.4s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(255,213,123,.9);
+  animation: sLightBlink 1.6s ease-in-out infinite;
 }
-
-.van-wheel {
+.s-van-wheel {
   position: absolute;
-  bottom: -15px;
-  width: 32px;
-  height: 32px;
+  bottom: -12px;
+  width: 26px; height: 26px;
   border-radius: 50%;
-  background: #2d3b2f;
-  box-shadow: inset 0 0 0 6px #607062;
-  animation: wheelSpin 0.75s linear infinite;
+  background: #2a3428;
+  box-shadow: inset 0 0 0 5px #5a6458;
+  animation: sWheelSpin .7s linear infinite;
 }
+.s-van-w1 { left: 12px; }
+.s-van-w2 { right: 10px; }
 
-.van-wheel-1 {
-  left: 32px;
-}
-
-.van-wheel-2 {
-  right: 24px;
-}
-
-/* ─── Energy orbs ────────────────────────────────────────── */
-.energy-orb {
+/* ─── BOOKING POPUP ──────────────────────────────────────── */
+.s-booking {
   position: absolute;
+  right: 80px;
   bottom: 240px;
-  width: 13px;
-  height: 13px;
+  width: 120px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  border: 1px solid rgba(107,196,109,.4);
+  z-index: 30;
+  opacity: 0;
+  animation: sBookingPop 24s ease-in-out infinite;
+}
+.s-booking-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #2d5a27;
+  margin-bottom: 7px;
+}
+.s-booking-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #e8f5e7;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+.s-booking-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6bc46d, #4cae4c);
+  width: 0%;
+  animation: sBookFill 24s linear infinite;
+}
+.s-booking-btn {
+  margin-top: 6px;
+  padding: 4px 0;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #6bc46d, #4cae4c);
+  font-size: 9px;
+  font-weight: 800;
+  color: #0a1a0c;
+  text-align: center;
+}
+
+/* Second booking popup */
+.s-booking-2 {
+  position: absolute;
+  right: 240px;
+  bottom: 240px;
+  width: 120px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  border: 1px solid rgba(107,196,109,.4);
+  z-index: 30;
+  opacity: 0;
+  animation: sBookingPop2 24s ease-in-out infinite;
+}
+.s-booking-2 .s-booking-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #2d5a27;
+  margin-bottom: 7px;
+}
+.s-booking-2 .s-booking-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #e8f5e7;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+.s-booking-2 .s-booking-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6bc46d, #4cae4c);
+  width: 0%;
+  animation: sBookFill2 24s linear infinite;
+}
+.s-booking-2 .s-booking-btn {
+  margin-top: 6px;
+  padding: 4px 0;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #6bc46d, #4cae4c);
+  font-size: 9px;
+  font-weight: 800;
+  color: #0a1a0c;
+  text-align: center;
+}
+
+/* ─── EV SCOOTER ─────────────────────────────────────────── */
+.s-scooter {
+  position: absolute;
+  right: 140px;
+  bottom: 126px;
+  width: 60px;
+  height: 44px;
+  z-index: 15;
+  opacity: 0;
+  animation: sScooterShow 24s ease-in-out infinite;
+}
+.s-sc-body {
+  position: absolute;
+  bottom: 10px; left: 6px;
+  width: 42px; height: 22px;
+  border-radius: 8px 14px 4px 4px;
+  background: linear-gradient(135deg, #3a7bd5, #2563b0);
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
+.s-sc-wf {
+  position: absolute;
+  bottom: 0; right: 4px;
+  width: 18px; height: 18px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    #d9ffbf 0%,
-    #71d978 55%,
-    rgba(113, 217, 120, 0) 72%
-  );
-  filter: blur(0.3px);
-  pointer-events: none;
+  background: #222;
+  box-shadow: inset 0 0 0 4px #555;
+}
+.s-sc-wr {
+  position: absolute;
+  bottom: 0; left: 4px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #222;
+  box-shadow: inset 0 0 0 4px #555;
+}
+/* Rider */
+.s-sc-rider {
+  position: absolute;
+  bottom: 28px; right: 10px;
+}
+.s-sc-head {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #f0c8a0;
+  margin: 0 auto;
+  border: 2px solid #d4a070;
+}
+.s-sc-torso {
+  width: 12px; height: 12px;
+  border-radius: 4px;
+  background: #3a7bd5;
+  margin: 1px auto 0;
 }
 
-.orb-1 {
-  left: 130px;
-  animation: orbTravel1 3.4s linear infinite;
+/* Second scooter */
+.s-scooter-2 {
+  position: absolute;
+  right: 300px;
+  bottom: 126px;
+  width: 60px;
+  height: 44px;
+  z-index: 15;
+  opacity: 0;
+  animation: sScooterShow2 24s ease-in-out infinite;
+}
+.s-scooter-2 .s-sc-body {
+  position: absolute;
+  bottom: 10px; left: 6px;
+  width: 42px; height: 22px;
+  border-radius: 8px 14px 4px 4px;
+  background: linear-gradient(135deg, #d53a7b, #b02563);
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
+.s-scooter-2 .s-sc-wf {
+  position: absolute;
+  bottom: 0; right: 4px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #222;
+  box-shadow: inset 0 0 0 4px #555;
+}
+.s-scooter-2 .s-sc-wr {
+  position: absolute;
+  bottom: 0; left: 4px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #222;
+  box-shadow: inset 0 0 0 4px #555;
+}
+.s-scooter-2 .s-sc-rider {
+  position: absolute;
+  bottom: 28px; right: 10px;
+}
+.s-scooter-2 .s-sc-head {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #f0c8a0;
+  margin: 0 auto;
+  border: 2px solid #d4a070;
+}
+.s-scooter-2 .s-sc-torso {
+  width: 12px; height: 12px;
+  border-radius: 4px;
+  background: #d53a7b;
+  margin: 1px auto 0;
 }
 
-.orb-2 {
-  left: 290px;
-  animation: orbTravel2 4s linear infinite 0.6s;
+/* ─── CHARGING WIRES (van to vehicles) ──────────────────── */
+.s-van-wire {
+  position: absolute;
+  right: 220px;
+  bottom: 192px;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(180deg, #5cb85c, #4cae4c);
+  border-radius: 2px;
+  z-index: 21;
+  transform-origin: top;
+  opacity: 0;
+  animation: sVanWire1 24s linear infinite;
+}
+.s-van-wire::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6bc46d;
+  box-shadow: 0 0 8px rgba(107,196,109,.8);
+}
+.s-van-wire-2 {
+  position: absolute;
+  right: 260px;
+  bottom: 192px;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(180deg, #5cb85c, #4cae4c);
+  border-radius: 2px;
+  z-index: 21;
+  transform-origin: top;
+  opacity: 0;
+  animation: sVanWire2 24s linear infinite;
+}
+.s-van-wire-2::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6bc46d;
+  box-shadow: 0 0 8px rgba(107,196,109,.8);
 }
 
-.orb-3 {
-  left: 450px;
-  animation: orbTravel3 3.7s linear infinite 1.1s;
+/* ─── CHARGE BOLT ────────────────────────────────────────── */
+.s-bolt {
+  position: absolute;
+  right: 210px;
+  bottom: 170px;
+  font-size: 24px;
+  z-index: 25;
+  opacity: 0;
+  animation: sBoltShow 24s ease-in-out infinite;
 }
 
-/* ─── Keyframes ──────────────────────────────────────────── */
-@keyframes driveAcross {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(820px);
-  }
+.s-bolt-2 {
+  position: absolute;
+  right: 370px;
+  bottom: 170px;
+  font-size: 24px;
+  z-index: 25;
+  opacity: 0;
+  animation: sBoltShow2 24s ease-in-out infinite;
 }
 
-@keyframes driveAcrossMobile {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(420px);
-  }
+/* ─── PAYMENT TICK ───────────────────────────────────────── */
+.s-pay {
+  position: absolute;
+  right: 120px;
+  bottom: 200px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6bc46d, #4cae4c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  z-index: 25;
+  opacity: 0;
+  box-shadow: 0 4px 14px rgba(107,196,109,.5);
+  animation: sPayShow 24s ease-in-out infinite;
 }
 
-@keyframes wheelSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.s-pay-2 {
+  position: absolute;
+  right: 280px;
+  bottom: 200px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6bc46d, #4cae4c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  z-index: 25;
+  opacity: 0;
+  box-shadow: 0 4px 14px rgba(107,196,109,.5);
+  animation: sPayShow2 24s ease-in-out infinite;
 }
 
-@keyframes cloudMove {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(240px);
-  }
+/* ─── STAGE LABEL ────────────────────────────────────────── */
+.s-stage {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8,18,10,.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(107,196,109,.35);
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #c8f0c8;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 40;
 }
 
-@keyframes sunFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(9px);
-  }
+/* ═══════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════ */
+@keyframes sSunPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,216,77,0); }
+  50%      { box-shadow: 0 0 28px 10px rgba(255,216,77,.25); }
+}
+@keyframes sCloudMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(120vw); }
+}
+@keyframes sPanelGlow {
+  0%,100% { filter: brightness(1); }
+  50%      { filter: brightness(1.3) drop-shadow(0 0 6px rgba(107,196,109,.6)); }
+}
+@keyframes sBattFill {
+  0%   { transform: scaleX(.05); }
+  25%  { transform: scaleX(1); }
+  100% { transform: scaleX(1); }
+}
+@keyframes sEnergyFlow {
+  0%   { left: 0;    opacity: 0; transform: scale(.6); }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: 90px; opacity: 0; transform: scale(1.2); }
+}
+/* Van: parked at farm hub → collects batteries → drives to city → charging vehicles → returns */
+@keyframes sVanTrip {
+  0%   { left: 180px;  transform: scaleX(1); }   /* at farm hub */
+  20%  { left: 180px;  transform: scaleX(1); }   /* collecting batteries */
+  40%  { left: calc(100% - 310px); transform: scaleX(1); } /* arrived city */
+  65%  { left: calc(100% - 310px); transform: scaleX(1); } /* charging vehicles */
+  68%  { left: calc(100% - 310px); transform: scaleX(-1); } /* flip */
+  88%  { left: 180px;  transform: scaleX(-1); }  /* back at farm */
+  92%  { left: 180px;  transform: scaleX(1); }
+  100% { left: 180px;  transform: scaleX(1); }
 }
 
-@keyframes solarShine {
-  0%,
-  100% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.18);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes orbTravel1 {
-  0% {
-    transform: translate(0, 0) scale(0.7);
-    opacity: 0;
-  }
-  18% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(420px, -36px) scale(1.4);
-    opacity: 0;
-  }
-}
-
-@keyframes orbTravel2 {
-  0% {
-    transform: translate(0, 0) scale(0.7);
-    opacity: 0;
-  }
-  18% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(260px, 8px) scale(1.35);
-    opacity: 0;
-  }
-}
-
-@keyframes orbTravel3 {
-  0% {
-    transform: translate(0, 0) scale(0.7);
-    opacity: 0;
-  }
-  18% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(145px, -16px) scale(1.25);
-    opacity: 0;
-  }
-}
-
-/* ─── Tablet ─────────────────────────────────────────────── */
-@media (max-width: 1100px) {
-  .animated-scene {
-    min-height: 580px;
-  }
-}
-
-/* ─── Mobile ─────────────────────────────────────────────── */
 @media (max-width: 760px) {
-  .animated-scene {
-    min-height: 460px;
+  @keyframes sVanTrip {
+    0%   { left: 140px;  transform: scaleX(1); }   /* at farm hub */
+    20%  { left: 140px;  transform: scaleX(1); }   /* collecting batteries */
+    40%  { left: calc(100% - 230px); transform: scaleX(1); } /* arrived city */
+    65%  { left: calc(100% - 230px); transform: scaleX(1); } /* charging vehicles */
+    68%  { left: calc(100% - 230px); transform: scaleX(-1); } /* flip */
+    88%  { left: 140px;  transform: scaleX(-1); }  /* back at farm */
+    92%  { left: 140px;  transform: scaleX(1); }
+    100% { left: 140px;  transform: scaleX(1); }
   }
+}
 
-  .solar {
-    transform: skewX(-20deg) rotate(-10deg) scale(0.72);
-  }
+@keyframes sPortCharge {
+  0%,3%   { opacity: 0; }
+  5%      { opacity: 1; }
+  18%     { opacity: 1; }
+  20%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
 
-  .solar-1 {
-    left: 10px;
-    bottom: 172px;
-  }
+@keyframes sHubWire {
+  0%,3%   { opacity: 0; height: 0; }
+  5%      { opacity: 1; height: 30px; }
+  18%     { opacity: 1; height: 30px; }
+  20%     { opacity: 0; height: 0; }
+  100%    { opacity: 0; height: 0; }
+}
 
-  .solar-2 {
-    left: 120px;
-    bottom: 182px;
-  }
+@keyframes sVanWire1 {
+  0%,42%  { opacity: 0; height: 0; }
+  45%     { opacity: 1; height: 32px; }
+  60%     { opacity: 1; height: 32px; }
+  63%     { opacity: 0; height: 0; }
+  100%    { opacity: 0; height: 0; }
+}
 
-  .solar-3 {
-    left: 228px;
-    bottom: 174px;
-  }
+@keyframes sVanWire2 {
+  0%,46%  { opacity: 0; height: 0; }
+  48%     { opacity: 1; height: 32px; }
+  62%     { opacity: 1; height: 32px; }
+  65%     { opacity: 0; height: 0; }
+  100%    { opacity: 0; height: 0; }
+}
 
-  .charge-station {
-    right: 16px;
-    bottom: 142px;
-    transform: scale(0.82);
-    transform-origin: bottom right;
-  }
+@keyframes sWheelSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes sBattPulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: .6; box-shadow: 0 0 8px rgba(92,184,92,.6); }
+}
+@keyframes sLightBlink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: .35; }
+}
+@keyframes sWinFlicker {
+  0%,100% { background: #c8e4f4; }
+  50%      { background: #fff8c0; }
+}
+@keyframes sDashScroll {
+  from { background-position: 0 0; }
+  to   { background-position: 56px 0; }
+}
+@keyframes sBookingPop {
+  0%,35%  { opacity: 0; transform: translateY(10px) scale(.9); }
+  38%     { opacity: 1; transform: translateY(0) scale(1); }
+  50%     { opacity: 1; transform: translateY(0) scale(1); }
+  52%     { opacity: 0; transform: translateY(-6px) scale(.95); }
+  100%    { opacity: 0; }
+}
+@keyframes sBookFill {
+  0%,35%  { width: 0%; }
+  40%     { width: 30%; }
+  45%     { width: 80%; }
+  50%     { width: 100%; }
+  52%     { width: 0%; }
+  100%    { width: 0%; }
+}
 
-  .van-wrap {
-    animation: driveAcrossMobile 8s linear infinite;
-  }
+@keyframes sBookingPop2 {
+  0%,48%  { opacity: 0; transform: translateY(10px) scale(.9); }
+  50%     { opacity: 1; transform: translateY(0) scale(1); }
+  62%     { opacity: 1; transform: translateY(0) scale(1); }
+  65%     { opacity: 0; transform: translateY(-6px) scale(.95); }
+  100%    { opacity: 0; }
+}
+@keyframes sBookFill2 {
+  0%,48%  { width: 0%; }
+  52%     { width: 30%; }
+  58%     { width: 80%; }
+  62%     { width: 100%; }
+  65%     { width: 0%; }
+  100%    { width: 0%; }
+}
+@keyframes sScooterShow {
+  0%,38%  { opacity: 0; }
+  42%     { opacity: 1; }
+  54%     { opacity: 1; }
+  58%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+@keyframes sScooterShow2 {
+  0%,48%  { opacity: 0; }
+  50%     { opacity: 1; }
+  66%     { opacity: 1; }
+  70%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+@keyframes sBoltShow {
+  0%,42%  { opacity: 0; transform: scale(.4); }
+  45%     { opacity: 1; transform: scale(1.3); }
+  48%     { opacity: 1; transform: scale(1); }
+  52%     { opacity: 1; transform: scale(1); }
+  54%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+@keyframes sBoltShow2 {
+  0%,52%  { opacity: 0; transform: scale(.4); }
+  54%     { opacity: 1; transform: scale(1.3); }
+  56%     { opacity: 1; transform: scale(1); }
+  62%     { opacity: 1; transform: scale(1); }
+  64%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+@keyframes sPayShow {
+  0%,52%  { opacity: 0; transform: scale(0); }
+  54%     { opacity: 1; transform: scale(1.3); }
+  56%     { opacity: 1; transform: scale(1); }
+  60%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+@keyframes sPayShow2 {
+  0%,62%  { opacity: 0; transform: scale(0); }
+  64%     { opacity: 1; transform: scale(1.3); }
+  66%     { opacity: 1; transform: scale(1); }
+  70%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
 
-  .field-1 {
-    left: -40px;
-    width: 160px;
-  }
-
-  .field-2 {
-    left: 96px;
-    width: 140px;
-  }
-
-  .field-3 {
-    left: 222px;
-    width: 160px;
-  }
-
-  .hill-back {
-    bottom: 220px;
-    height: 160px;
-  }
-
-  .hill-mid {
-    bottom: 160px;
-    height: 150px;
-  }
-
-  .scene-ground {
-    height: 210px;
-  }
-
-  .van-path {
-    bottom: 100px;
-    height: 76px;
-  }
-
-  .van-wrap {
-    bottom: 100px;
-  }
-
-  .energy-orb {
-    bottom: 190px;
-  }
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .scene-root { height: 400px; }
+  .s-farm  { width: 160px; }
+  .s-city  { width: 160px; }
+  .s-b2    { height: 120px; }
+}
+@media (max-width: 760px) {
+  .scene-root { height: 320px; }
+  .s-farm  { left: 8px; width: 130px; bottom: 110px; }
+  .s-city  { right: 8px; width: 130px; bottom: 110px; }
+  .s-panels { bottom: 60px; }
+  .s-panel  { width: 30px; height: 40px; }
+  .s-batt-station { width: 64px; bottom: 60px; }
+  .s-charge-port { width: 18px; height: 14px; font-size: 7px; }
+  .s-ground { height: 200px; }
+  .s-hill-1 { bottom: 170px; height: 110px; }
+  .s-hill-2 { bottom: 162px; height: 90px; }
+  .s-road-wrap { bottom: 44px; height: 64px; }
+  .s-van { bottom: 100px; width: 80px; left: 140px; }
+  .s-van-body { width: 72px; height: 38px; }
+  .s-van-cabin { width: 30px; height: 28px; top: -12px; }
+  .s-van-wheel { width: 18px; height: 18px; bottom: -9px; }
+  .s-scooter { right: 80px; bottom: 100px; width: 46px; }
+  .s-scooter-2 { right: 180px; bottom: 100px; width: 46px; }
+  .s-bolt { right: 120px; bottom: 130px; font-size: 18px; }
+  .s-bolt-2 { right: 220px; bottom: 130px; font-size: 18px; }
+  .s-pay  { right: 70px; bottom: 150px; width: 28px; height: 28px; font-size: 14px; }
+  .s-pay-2  { right: 170px; bottom: 150px; width: 28px; height: 28px; font-size: 14px; }
+  .s-booking { right: 30px; bottom: 190px; width: 90px; padding: 8px; }
+  .s-booking-2 { right: 130px; bottom: 190px; width: 90px; padding: 8px; }
+  .s-hub-wire { left: 160px; bottom: 130px; }
+  .s-van-wire { right: 130px; bottom: 150px; }
+  .s-van-wire-2 { right: 230px; bottom: 150px; }
+  .s-b1 { height: 80px; }
+  .s-b2 { height: 110px; }
+  .s-b3 { height: 88px; }
+  .s-b4 { height: 72px; }
 }
